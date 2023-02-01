@@ -37,11 +37,13 @@ let timerText=document.querySelector(".timer-message");
 
 let questionIndex=0;
 
-let secondsLeft = 5 //how many seconds until timer goes off 
+let secondsLeft = 5; //how many seconds until timer goes off
+
+let userScore=0;
 
 // let choiceButtons=document.querySelector('.')
 
-var questions = [
+var questionArray = [
     {
         question: "What does HTML stand for?",
         choices: ["Hyper text Martian language","Hyper text markup language"],
@@ -56,7 +58,7 @@ var questions = [
 
 function startQuiz() {
   
-    document.querySelector(".question").textContent=questions[0].question;
+    document.querySelector(".question").textContent=questionArray[0].question;
     // console.log(questions[0].question);
         
     let timerInterval=setInterval(function() {
@@ -85,29 +87,31 @@ function hidePage() {
     }
   }
 
+let answerButtons=document.querySelectorAll(".answer-button");
+
+let i=0;
+
+// questions=questionArray[i].question;
+// console.log(questions);
+
+// let questions=document.querySelector('.question');
+let questions=document.querySelector('.question');
 
 
-// var myFunction = function() {
-//     var attribute = this.getAttribute("");
-//     alert(attribute);
-// };
-
-
-let buttons=document.querySelectorAll(".answer-button")
 
 function askQuestion(){
 
-    for (let index = 0; index < buttons.length; index++) {
-        buttons[index].textContent=questions[questionIndex].choices[index];
-         
+    for (let i = 0; i < answerButtons.length; i++) {
+        answerButtons[i].textContent=questionArray[questionIndex].choices[i];
     }
-
+    
+}
+  
     // question.textContent=questionList[i];  
     // question.onclick=checkAnswer;
-}
 
 function checkAnswer(){     //if statement true if b, else false, etc
-console.log("checkAnswer");
+// console.log("checkAnswer");
    questionIndex++; // i=i+1  
    askQuestion(); //check for loop
 }
@@ -115,10 +119,14 @@ console.log("checkAnswer");
 startButton.addEventListener("click", startQuiz);
 // buttons.addEventListener('click', askQuestion)
 
-for (let index = 0; index < buttons.length; index++) {
-    buttons[index].addEventListener('click', checkAnswer);
-     
+
+for (let i = 0; i < answerButtons.length; i++) {
+    answerButtons[i].addEventListener('click', checkAnswer);
 }
+
+// for (let i = 0; i < questions.length; i++) {
+//     answerButtons[i].addEventListener('click', checkAnswer);    
+// }
 
 
 
