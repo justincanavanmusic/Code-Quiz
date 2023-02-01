@@ -1,117 +1,133 @@
+//click button to start
+    //event listener
+    //a timer will start
+//user is presented with a question
+
+//user selects one multiple choice question
+    //IF answer is wrong, decrement the timer
+        //Display that the user choice was incorrect, then move to next question
+    //IF answer is correct
+        //Display that the user choice was correct(textContent)
+        //Increment the score++
+    //FOR loop to loop through the questions array
+//When timer hits 0 OR no more questions in array
+    //THEN clear interval
+    //THEN allow user to input initials
+    //THEN link to highscores page(two separate HTML pages, index.html and hiscores.html)
+    //Save data to local storage(setItem, getItem)
+
+//startQuiz() function changes content
+    //hide the start screen
+    //unhide the questions section
+    //start the timer
+    //show the starting time
+    //call getQuestion()
+//getQuestion() function get current question object from questions array
+    //change content of the page
+    //getElementbyId, change textContent
+    //loop over choices create a button for each choice
+    //after creating all the elements we appendChild
+//questionClick() function that checks choice user clicked
+    //first we check that the event.target matches an answer choice
+    //check event.target.value matches the questions[currentIndex].answer
+
+
 let startButton=document.getElementById("start-btn"); //allows us to refer to button later w/o typing all syntax (doc.getEl, etc)
 let timerText=document.querySelector(".timer-message");
 
-let secondsLeft = 10 //how many seconds until timer goes off 
+let secondsLeft = 5 //how many seconds until timer goes off 
 
-//setInterval METHOD used to repeat a function based on the time interval provided (1000 is 1 second)
+// let choiceButtons=document.querySelector('.')
 
-                        //setting timer from 5 seconds descending to 0
-function setTimer() {
+var questions = [
+    {
+        question: "What does HTML stand for?",
+        choice1: "Hyper text Martian language",
+        choice2: "Hyper text markup language",
+        answer: "Hyper text markup language",
+    },
+    {
+        question: "What does CSS stand for?",
+        choices: ["Cats stay sleeping", "Cascading style sheets"],
+        answer: "Cascading style sheets",
+    }
+]
+
+function startQuiz() {
   
-    document.querySelector(".p1-paragraph").textContent=questionList[0];
+    document.querySelector(".question").textContent=questions[0].question;
+    // console.log(questions[0].question);
         
     let timerInterval=setInterval(function() {
         if (secondsLeft>0) {
         secondsLeft--;   //decreases the secondsLeft variable each time timerInterval passes
-
-        // startButton.textContent = "Start Quiz!";
+        
         timerText.textContent = secondsLeft + " seconds left!";
-     
       
         if(secondsLeft===0) {
-            clearInterval(timerInterval); //stops the function from continuing when the countdown ends
-            introText();  //asks the first question in quiz
-            }   //bracket for if secondsLeft statement
-      
- } }, 1000); //bracket for setInterval function
-
+            clearInterval(timerInterval); 
+                
+            // askQuestion();
+            
+            }  
+    //   askQuestion();
+ } }, 1000); 
+        askQuestion();
 } 
 
-function introText() {      //deletes intro p        
-    timerText.textContent="";    content
-    nextQuestion();
-
-}
-
-var questionList=["q1", "q2", "q3", "q4"];  //arrays can be any datatype
-var i=0;
-
-function nextQuestion(){
-    var question=document.getElementById("question-btn");
-    question.textContent=questionList[i];  //square brackets help pick string from array
-    question.onclick=checkAnswer;
-}
-
-let questions = [
-    {
-        question1: 'what is 2+2?',
-        option1: '2',
-        option2: '3',
-        option3: '4',
-        option4: '5',
-        answer1: 3,
+function hidePage() {
+    var button = document.querySelector(".p1-box");
+    if (button.style.display === "none") {
+      button.style.display = "block";
+    } else {
+      button.style.display = "none";
     }
-      
-    ] 
+  }
 
+var answerButtons = document.querySelector(".answer-buttons");
 
+// var myFunction = function() {
+//     var attribute = this.getAttribute("");
+//     alert(attribute);
+// };
 
+answerButtons.addEventListener('click', askQuestion())
+
+function askQuestion(){
+    document.querySelector(".answer-button1").textContent=questions[0].choice1;
+    document.querySelector(".answer-button2").textContent=questions[0].choice2;
+    // question.textContent=questionList[i];  
+    // question.onclick=checkAnswer;
+}
 
 function checkAnswer(){     //if statement true if b, else false, etc
 
    i++; // i=i+1  
-   nextQuestion(); //check for loop
+   askQuestion(); //check for loop
 }
 
+startButton.addEventListener("click", startQuiz);
+// answerOptions.addEventListener("click", setTimer);
 
 
-// setTimer.addEventListener("click",  )
-                                //this is a function
-startButton.addEventListener("click", setTimer);
-// startButton.addEventListener("click", startAlert);
- //if display function had (), it would run immediately
-// display(); //prints a
 
 
-// let currentQuestion={};
-// let correctAnswers=true;
-// let score=0;
-// let avaiableQuestions = []; 
 
 
-                    //youtube video
-                    // let questions = [
-                    //     {
-                    //         question: 'what is 2+2?',
-                    //         answer1: '2',
-                    //         choice2: '3',
-                    //         choice3: '4',
-                    //         choice4: '5',
-                    //         answer: 2,
-                    //     }
-                    //     {
-                    //         question: 'what is 2+2?',
-                    //         answer1: '2',
-                    //         choice2: '3',
-                    //         choice3: '4',
-                    //         choice4: '5',
-                    //         answer: 2,
-                    //     }
-                    //     {
-                    //         question: 'what is 2+2?',
-                    //         answer1: '2',
-                    //         choice2: '3',
-                    //         choice3: '4',
-                    //         choice4: '5',
-                    //         answer: 2,
-                    //     }
-                    //     {
-                    //         question: 'what is 2+2?',
-                    //         answer1: '2',
-                    //         choice2: '3',
-                    //         choice3: '4',
-                    //         choice4: '5',
-                    //         answer: 2, 
-                    //     } 
-                    // ]
-                    
+
+
+
+// let radioBtns=document.querySelectorAll("input[name='answers']")
+// let result=document.getElementById("result");
+
+// let findSelected = () => {
+//     let selected=document.querySelector("input[name='answers']:checked").value;
+//     result.textContent=`Value of selected radio button: ${selected}`;
+// }
+
+// radioBtns.forEach(radioBtn=> {
+//         radioBtn.addEventListener("change", findSelected)
+    
+// });
+
+// findSelected();
