@@ -35,13 +35,16 @@
 let startButton=document.getElementById("start-btn"); //allows us to refer to button later w/o typing all syntax (doc.getEl, etc)
 let timerText=document.querySelector(".timer-message");
 
-let questionIndex=0;
+let index=0;  //dictates which question we're on
 
 let secondsLeft = 5; //how many seconds until timer goes off
 
 let userScore=0;
 
+var answerButtons = document.querySelector(".answer-buttons")
+
 // let choiceButtons=document.querySelector('.')
+
 
 var questionArray = [
     {
@@ -56,9 +59,10 @@ var questionArray = [
     }
 ]
 
+
 function startQuiz() {
   
-    document.querySelector(".question").textContent=questionArray[0].question;
+    // document.querySelector(".question").textContent=questionArray[questionIndex].question;
     // console.log(questions[0].question);
         
     let timerInterval=setInterval(function() {
@@ -66,16 +70,16 @@ function startQuiz() {
         secondsLeft--;   //decreases the secondsLeft variable each time timerInterval passes
         
         timerText.textContent = secondsLeft + " seconds left!";
-      
+        
         if(secondsLeft===0) {
             clearInterval(timerInterval); 
-                
+            
             // askQuestion();
             
-            }  
-    //   askQuestion();
- } }, 1000); 
-        askQuestion();
+        }  
+        //   askQuestion();
+    } }, 1000); 
+    askQuestion();
 } 
 
 function hidePage() {
@@ -87,65 +91,93 @@ function hidePage() {
     }
   }
 
-let answerButtons=document.querySelectorAll(".answer-button");
+// let answerButtons=document.querySelector(".answer-button");
 
-let i=0;
+// answerButtons.addEventListener("click", function(event) {
+//     let userChoice=event.target;
+// });
 
-// questions=questionArray[i].question;
-// console.log(questions);
+// answerButtons.addEventListener("click" {
+// //     console.log(e);
+// });
 
-// let questions=document.querySelector('.question');
 let questions=document.querySelector('.question');
 
-
-
 function askQuestion(){
+    questions.textContent=questionArray[index].question;
+    // console.log(questionArray[questionIndex].choices.length);
+   
+    answerButtons.innerHTML="";
 
-    for (let i = 0; i < answerButtons.length; i++) {
-        answerButtons[i].textContent=questionArray[questionIndex].choices[i];
+    for (let i = 0; i < questionArray[index].choices.length; i++) {
+       
+        let optionButton = document.createElement("button");
+        //<button>
+
+        optionButton.setAttribute("class", "ansChoice")
+        // <button class=ansChoice> </button>
+        
+        optionButton.textContent=questionArray[index].choices[i];
+        //adding text in button
+          // <button>answer1</button>
+
+        optionButton.addEventListener("click", checkAnswer);
+
+        answerButtons.appendChild(optionButton);
+        //puts element in html
+        /*<div>
+            <button></button>
+         </div>
+        */
+
     }
     
 }
-  
-    // question.textContent=questionList[i];  
-    // question.onclick=checkAnswer;
 
-function checkAnswer(){     //if statement true if b, else false, etc
-// console.log("checkAnswer");
-   questionIndex++; // i=i+1  
-   askQuestion(); //check for loop
+function checkAnswer(event){
+
+//e is an object containin g info about event that just occured
+// if(e.target.matches('button')){
+//     console.log(e.target);
+//    }
+    let correctAnswer=questionArray[index].answer;
+    // console.log(correctAnswer);
+    let userChoice=event.target.textContent;
+   
+    // console.log(userChoice);
+    let correctEl=document.getElementById("correct");
+
+    if (correctAnswer===userChoice) {
+        correctEl.textContent="correct"
+
+    }
+    else {
+        correctEl.textContent="incorrect"
+        }
+
+    setTimeout(function () {
+        correctEl.textContent="";
+    } ,1000 )
+
+   index++; // i=i+1  
+   if(index<questionArray.length) {
+    askQuestion(); //check for loop
+   }
+   else {
+    // alert("game over");
+   }
+  
+
+
+ 
 }
 
 startButton.addEventListener("click", startQuiz);
 // buttons.addEventListener('click', askQuestion)
 
 
-for (let i = 0; i < answerButtons.length; i++) {
-    answerButtons[i].addEventListener('click', checkAnswer);
-}
-
-// for (let i = 0; i < questions.length; i++) {
-//     answerButtons[i].addEventListener('click', checkAnswer);    
-// }
 
 
 
 
 
-
-
-
-// let radioBtns=document.querySelectorAll("input[name='answers']")
-// let result=document.getElementById("result");
-
-// let findSelected = () => {
-//     let selected=document.querySelector("input[name='answers']:checked").value;
-//     result.textContent=`Value of selected radio button: ${selected}`;
-// }
-
-// radioBtns.forEach(radioBtn=> {
-//         radioBtn.addEventListener("change", findSelected)
-    
-// });
-
-// findSelected();
