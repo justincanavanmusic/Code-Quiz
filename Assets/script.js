@@ -35,6 +35,8 @@
 let startButton=document.getElementById("start-btn"); //allows us to refer to button later w/o typing all syntax (doc.getEl, etc)
 let timerText=document.querySelector(".timer-message");
 
+let questionIndex=0;
+
 let secondsLeft = 5 //how many seconds until timer goes off 
 
 // let choiceButtons=document.querySelector('.')
@@ -42,8 +44,7 @@ let secondsLeft = 5 //how many seconds until timer goes off
 var questions = [
     {
         question: "What does HTML stand for?",
-        choice1: "Hyper text Martian language",
-        choice2: "Hyper text markup language",
+        choices: ["Hyper text Martian language","Hyper text markup language"],
         answer: "Hyper text markup language",
     },
     {
@@ -84,31 +85,40 @@ function hidePage() {
     }
   }
 
-var answerButtons = document.querySelector(".answer-buttons");
+
 
 // var myFunction = function() {
 //     var attribute = this.getAttribute("");
 //     alert(attribute);
 // };
 
-answerButtons.addEventListener('click', askQuestion())
+
+let buttons=document.querySelectorAll(".answer-button")
 
 function askQuestion(){
-    document.querySelector(".answer-button1").textContent=questions[0].choice1;
-    document.querySelector(".answer-button2").textContent=questions[0].choice2;
+
+    for (let index = 0; index < buttons.length; index++) {
+        buttons[index].textContent=questions[questionIndex].choices[index];
+         
+    }
+
     // question.textContent=questionList[i];  
     // question.onclick=checkAnswer;
 }
 
 function checkAnswer(){     //if statement true if b, else false, etc
-
-   i++; // i=i+1  
+console.log("checkAnswer");
+   questionIndex++; // i=i+1  
    askQuestion(); //check for loop
 }
 
 startButton.addEventListener("click", startQuiz);
-// answerOptions.addEventListener("click", setTimer);
+// buttons.addEventListener('click', askQuestion)
 
+for (let index = 0; index < buttons.length; index++) {
+    buttons[index].addEventListener('click', checkAnswer);
+     
+}
 
 
 
