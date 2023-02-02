@@ -10,7 +10,10 @@
         //Display that the user choice was correct(textContent)
         //Increment the score++
     //FOR loop to loop through the questions array
-//When timer hits 0 OR no more questions in array
+
+
+    //When timer hits 0 OR no more questions in array
+    
     //THEN clear interval
     //THEN allow user to input initials
     //THEN link to highscores page(two separate HTML pages, index.html and hiscores.html)
@@ -31,47 +34,57 @@
     //first we check that the event.target matches an answer choice
     //check event.target.value matches the questions[currentIndex].answer
 
-
-let startButton=document.getElementById("start-btn"); //allows us to refer to button later w/o typing all syntax (doc.getEl, etc)
+//start button
+let startButton=document.getElementById("start-btn"); 
+//text that pops up with timer info
 let timerText=document.querySelector(".timer-message");
 
-let index=0;  //dictates which question we're on
 
-let secondsLeft = 5; //how many seconds until timer goes off
+let questionIndex=0;  //dictates which question we're on
 
-let userScore=0;
+let secondsLeft = 60; //how many seconds until timer goes off
 
+//multiple choice option buttons
 var answerButtons = document.querySelector(".answer-buttons")
 
-// let choiceButtons=document.querySelector('.')
-
-
+//an array with objects for each question. includes questions, choices, answers
 var questionArray = [
     {
         question: "What does HTML stand for?",
-        choices: ["Hyper text Martian language","Hyper text markup language"],
-        answer: "Hyper text markup language",
+        choices: ["1. Hyper text Martian language","2. Hyper text markup language", "3. HTTP", "4. High Tech Music Language"],
+        answer: "2. Hyper text markup language",
     },
     {
         question: "What does CSS stand for?",
-        choices: ["Cats stay sleeping", "Cascading style sheets"],
-        answer: "Cascading style sheets",
+        choices: ["1. Cats stay sleeping", "2. Candy Store Shop", "3. Cascading style sheets", "4. Cascading Style Store"],
+        answer: "4. Cascading style sheets",
+    },
+
+    {
+        question: "What are the values of a boolean?",
+        choices: ["1. True/False", "2. If/And/But", "3. 20/40", "4. 100/200"],
+        answer: "True/False",
     }
 ]
 
-
+//function that starts the quiz
 function startQuiz() {
-  
-    // document.querySelector(".question").textContent=questionArray[questionIndex].question;
-    // console.log(questions[0].question);
         
+    //if there is greater than one second left, keep decrementing until 0
     let timerInterval=setInterval(function() {
         if (secondsLeft>0) {
         secondsLeft--;   //decreases the secondsLeft variable each time timerInterval passes
         
+        //this is the text along with the timer
         timerText.textContent = secondsLeft + " seconds left!";
         
+        //if secondsleft is equal to 0 display none
         if(secondsLeft===0) {
+            if (quizDiv.style.display === "none") {
+                quizDiv.style.display = "block";
+            } else {
+                quizDiv.style.display = "none";
+            }
             clearInterval(timerInterval); 
             
             // askQuestion();
@@ -81,7 +94,7 @@ function startQuiz() {
     } }, 1000); 
     askQuestion();
 } 
-
+//allowing me to hide/display the previous/following page. put all elements within the div that i wanted to disappear
 function hidePage() {
     var button = document.querySelector(".p1-box");
     if (button.style.display === "none") {
@@ -91,25 +104,16 @@ function hidePage() {
     }
   }
 
-// let answerButtons=document.querySelector(".answer-button");
-
-// answerButtons.addEventListener("click", function(event) {
-//     let userChoice=event.target;
-// });
-
-// answerButtons.addEventListener("click" {
-// //     console.log(e);
-// });
-
+  //selecting question class from HTML
 let questions=document.querySelector('.question');
 
 function askQuestion(){
-    questions.textContent=questionArray[index].question;
+    questions.textContent=questionArray[questionIndex].question;
     // console.log(questionArray[questionIndex].choices.length);
    
     answerButtons.innerHTML="";
 
-    for (let i = 0; i < questionArray[index].choices.length; i++) {
+    for (let i = 0; i < questionArray[questionIndex].choices.length; i++) {
        
         let optionButton = document.createElement("button");
         //<button>
@@ -117,7 +121,7 @@ function askQuestion(){
         optionButton.setAttribute("class", "ansChoice")
         // <button class=ansChoice> </button>
         
-        optionButton.textContent=questionArray[index].choices[i];
+        optionButton.textContent=questionArray[questionIndex].choices[i];
         //adding text in button
           // <button>answer1</button>
 
@@ -140,7 +144,7 @@ function checkAnswer(event){
 // if(e.target.matches('button')){
 //     console.log(e.target);
 //    }
-    let correctAnswer=questionArray[index].answer;
+    let correctAnswer=questionArray[questionIndex].answer;
     // console.log(correctAnswer);
     let userChoice=event.target.textContent;
    
@@ -155,25 +159,54 @@ function checkAnswer(event){
         correctEl.textContent="incorrect"
         }
 
+    if (correctAnswer!==userChoice) {
+        secondsLeft=secondsLeft-10
+    
+        }
+
     setTimeout(function () {
         correctEl.textContent="";
     } ,1000 )
 
-   index++; // i=i+1  
-   if(index<questionArray.length) {
+   questionIndex++; // i=i+1  
+   
+   if(questionIndex<questionArray.length) {
     askQuestion(); //check for loop
    }
    else {
-    // alert("game over");
+  
+    //   highScore();
    }
+ 
+// function highScore(e) {
+//     let initialInput = document.createElement("div");
+
+//     initialInput.setAttribute("class", "initials")
+//     // <button class=ansChoice> </button>
+    
+//     initialInput.textContent="Enter Initials";
+// }
+}
+var quizDiv = document.getElementById("quiz-div");
+
+function hideFinalPage() {
+    
+    if(questionIndex===questionArray.length){
+        if (quizDiv.style.display === "none") {
+            quizDiv.style.display = "block";
+        } else {
+            quizDiv.style.display = "none";
+        }
+    }
+  }
+
   
 
 
- 
-}
-
 startButton.addEventListener("click", startQuiz);
-// buttons.addEventListener('click', askQuestion)
+// buttons.addEventListener('click', askQuestion);
+quizDiv.addEventListener("click", hideFinalPage);
+
 
 
 
