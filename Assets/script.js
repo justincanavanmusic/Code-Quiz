@@ -42,6 +42,8 @@ let timerText=document.querySelector(".timer-message");
 
 let questionIndex=0;  //dictates which question we're on
 
+let userScore=0; //dictates correct answers for user
+
 let secondsLeft = 60; //how many seconds until timer goes off
 
 //multiple choice option buttons
@@ -57,13 +59,13 @@ var questionArray = [
     {
         question: "What does CSS stand for?",
         choices: ["1. Cats stay sleeping", "2. Candy Store Shop", "3. Cascading style sheets", "4. Cascading Style Store"],
-        answer: "4. Cascading style sheets",
+        answer: "3. Cascading style sheets",
     },
 
     {
         question: "What are the values of a boolean?",
         choices: ["1. True/False", "2. If/And/But", "3. 20/40", "4. 100/200"],
-        answer: "True/False",
+        answer: "1. True/False",
     }
 ]
 
@@ -86,11 +88,9 @@ function startQuiz() {
                 quizDiv.style.display = "none";
             }
             clearInterval(timerInterval); 
-            
-            // askQuestion();
-            
+            //clears interval so we don't go past 0    
         }  
-        //   askQuestion();
+        
     } }, 1000); 
     askQuestion();
 } 
@@ -108,11 +108,14 @@ function hidePage() {
 let questions=document.querySelector('.question');
 
 function askQuestion(){
+    //makes the text content of the question div whatever number question we're at in the array
     questions.textContent=questionArray[questionIndex].question;
     // console.log(questionArray[questionIndex].choices.length);
    
+    //makes the everything in the answerButtons class disappear
     answerButtons.innerHTML="";
 
+    //for loop that loops thorugh all "choices" options from the question array. dependant on where we are in the question index
     for (let i = 0; i < questionArray[questionIndex].choices.length; i++) {
        
         let optionButton = document.createElement("button");
@@ -140,52 +143,49 @@ function askQuestion(){
 
 function checkAnswer(event){
 
-//e is an object containin g info about event that just occured
-// if(e.target.matches('button')){
-//     console.log(e.target);
-//    }
+//e is an object containing info about event that just occured
+
+//correct answer = the answer from wherever we're at in the questionIndex
     let correctAnswer=questionArray[questionIndex].answer;
     // console.log(correctAnswer);
     let userChoice=event.target.textContent;
-   
-    // console.log(userChoice);
+   //user choice uses the event target to show what the user clicked. 
+    
+   //grabs correct id
     let correctEl=document.getElementById("correct");
 
+    //writes correct if user answer is correct
     if (correctAnswer===userChoice) {
-        correctEl.textContent="correct"
+        correctEl.textContent="correct";
+        userScore++;
+        console.log(userScore);
 
-    }
+    } //writes incorrect if user answer is incorrect
     else {
         correctEl.textContent="incorrect"
         }
-
+    //if user answer is incorrect, subtract 10 seconds from timer
     if (correctAnswer!==userChoice) {
         secondsLeft=secondsLeft-10
     
         }
-
+    //leaves the "correct" or "uncorrect" string up for 1 second then converts it to an empty string
     setTimeout(function () {
         correctEl.textContent="";
     } ,1000 )
 
+    //raises question index by 1
    questionIndex++; // i=i+1  
    
+   //if there are still questions left, call ask question function
    if(questionIndex<questionArray.length) {
-    askQuestion(); //check for loop
+    askQuestion(); 
    }
-   else {
+//    else {
   
-    //   highScore();
-   }
+//     //   highScore();
+//    }
  
-// function highScore(e) {
-//     let initialInput = document.createElement("div");
-
-//     initialInput.setAttribute("class", "initials")
-//     // <button class=ansChoice> </button>
-    
-//     initialInput.textContent="Enter Initials";
-// }
 }
 var quizDiv = document.getElementById("quiz-div");
 
@@ -201,10 +201,13 @@ function hideFinalPage() {
   }
 
   
+  
 
+  
 
+//adds event listener to start button
 startButton.addEventListener("click", startQuiz);
-// buttons.addEventListener('click', askQuestion);
+//adds event listener to hide final page
 quizDiv.addEventListener("click", hideFinalPage);
 
 
