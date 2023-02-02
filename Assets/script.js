@@ -189,7 +189,7 @@ function checkAnswer(event){
 }
 var quizDiv = document.getElementById("quiz-div");
 
-function hideFinalPage() {
+function hideQuestionPage() {
     
     if(questionIndex===questionArray.length){
         if (quizDiv.style.display === "none") {
@@ -200,18 +200,26 @@ function hideFinalPage() {
     }
   }
 
-  
-  
+//   function lastPage() {
+//     var userInitials = document.getElementById("user-initials");
 
-  
+//     if 
+
+//     if (userInitials.style.display === "none") {
+//       userInitials.style.display = "block";
+//     } else {
+//       userInitials.style.display = "none";
+//     }
+//   }
+
+
 
 //adds event listener to start button
 startButton.addEventListener("click", startQuiz);
 //adds event listener to hide final page
-quizDiv.addEventListener("click", hideFinalPage);
+quizDiv.addEventListener("click", hideQuestionPage);
 
-
-
+//had to add eventlistener to initials submit but ran out of time.
 
 
 

@@ -82,3 +82,9 @@ h1 {
     font-size: 5vh;
     justify-content: center;
 }
+#last-page {
+    display: flex;
+    justify-content: center;
+
+}
+
